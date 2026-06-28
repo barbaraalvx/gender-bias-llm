@@ -109,6 +109,7 @@ class CSVWriter:
         self._open()
 
     def _open(self):
+        self.path.parent.mkdir(parents=True, exist_ok=True)
         write_header = not self.path.exists()
         self._file = open(self.path, "a", encoding="utf-8", newline="")
         self._writer = csv.DictWriter(self._file, fieldnames=self.fieldnames)
