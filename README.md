@@ -51,7 +51,7 @@ Este projeto utiliza o **uv** para gerenciamento ultrarrápido e reprodutível d
 Certifique-se de ter o `uv` instalado em sua máquina. Em seguida, clone o repositório e sincronize o ambiente virtual:
 
 ```bash
-git clone [https://github.com/barbaraalvx/gender-bias-llm.git](https://github.com/barbaraalvx/gender-bias-llm.git)
+git clone https://github.com/barbaraalvx/gender-bias-llm.git
 cd gender-bias-llm
 ```
 
