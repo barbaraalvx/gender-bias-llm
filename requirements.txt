@@ -1,0 +1,6 @@
+# Coleta
+requests
+
+# PLN
+spacy
+nltk
