@@ -36,16 +36,17 @@ MODELS = {
             "model": "gpt-5.4-mini",
             "messages": [{"role": "user", "content": prompt}],
             "temperature": 0.7,
-            "max_tokens": 300,
+            "max_completion_tokens": 900,
         },
         "extract_text": lambda r: r["choices"][0]["message"]["content"],
         "extract_tokens": lambda r: r["usage"]["completion_tokens"],
+        "delay": 0.5,
     },
     "gemini": {
-        "name": "gemini-3.5-flash",
+        "name": "gemini-2.5-flash",
         "endpoint": (
             "https://generativelanguage.googleapis.com/v1beta/models/"
-            "gemini-3.5-flash:generateContent"
+            "gemini-2.5-flash:generateContent"
         ),
         "build_headers": lambda key: {
             "Content-Type": "application/json",
@@ -54,11 +55,12 @@ MODELS = {
             "contents": [{"parts": [{"text": prompt}]}],
             "generationConfig": {
                 "temperature": 0.7,
-                "maxOutputTokens": 300,
-            },
+                "maxOutputTokens": 2000,
+            }
         },
         "extract_text": lambda r: r["candidates"][0]["content"]["parts"][0]["text"],
         "extract_tokens": lambda r: r.get("usageMetadata", {}).get("candidatesTokenCount", -1),
+        "delay": 8.0,
     },
     "llama": {
         "name": "llama-3.3-70b",
@@ -71,10 +73,11 @@ MODELS = {
             "model": "llama-3.3-70b-versatile",
             "messages": [{"role": "user", "content": prompt}],
             "temperature": 0.7,
-            "max_tokens": 300,
+            "max_tokens": 900,
         },
         "extract_text": lambda r: r["choices"][0]["message"]["content"],
         "extract_tokens": lambda r: r["usage"]["completion_tokens"],
+        "delay": 0.5,
     },
 }
 
@@ -84,8 +87,8 @@ OUTPUT_FIELDS = [
     "tokens_gerados", "timestamp",
 ]
 
-DATASET_PATH = "dataset.csv"
-OUTPUT_PATH = "responses.csv"
+DATASET_PATH = "data/raw/dataset_prompts.csv"
+OUTPUT_PATH = "data/outputs/responses.csv"
 
 # ---------------------------------------------------------------------------
 # Coleta para um modelo
@@ -138,7 +141,7 @@ def collect_model(alias: str, prompts: list[dict], logger):
             logger.info(f"[{model_name}] Prompt {prompt_id} — {status} ({tokens} tokens)")
 
             # Pausa mínima entre chamadas para evitar rate limit
-            time.sleep(0.5)
+            time.sleep(config["delay"])
 
     logger.info(f"Coleta concluída para {model_name}. Saída: {OUTPUT_PATH}")
 
