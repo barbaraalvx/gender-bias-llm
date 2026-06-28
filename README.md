@@ -22,7 +22,7 @@ O experimento submete um dataset de 54 prompts controlados a três LLMs e analis
 gender-bias-llm/
 ├── data/
 │   ├── raw/
-│   │   └── dataset.csv              # 54 prompts base (versionado)
+│   │   └── dataset_prompts.csv              # 54 prompts base (versionado)
 │   └── outputs/                     # gerado pelos scripts (não versionado)
 │       ├── responses.csv
 │       ├── pronoun_counts.csv
