@@ -11,8 +11,8 @@ O experimento submete um dataset de 54 prompts controlados a três LLMs e analis
 | Alias | Modelo | Provedor |
 |-------|--------|----------|
 | `gpt` | GPT-5.4 mini | OpenAI |
-| `gemini` | Gemini 3.5 Flash | Google |
-| `llama` | LLaMA 3.1 70B Instruct | Meta via Groq |
+| `gemini` | Gemini 2.5 Flash | Google |
+| `llama` | LLaMA 3.3 70B Instruct | Meta via Groq |
 
 ---
 
@@ -29,13 +29,15 @@ gender-bias-llm/
 │       ├── adjective_polarity.csv
 │       └── adjectives_unknown_pt.csv
 ├── lexicons/
-│   └── SentiLex-PT02-Adj.txt        # léxico estático PT (versionado)
 ├── src/
 │   ├── utils.py                     # logger, retry, CSV writer
 │   ├── collect.py                   # coleta de respostas via API
+│   ├── prepare_sentilex.py          # filtragem e pós-processamento do SentiLex
 │   └── analyze.py                   # análise PLN
 ├── .env.example
-├── requirements.txt
+├── pyproject.toml                   # gerenciamento de dependências do projeto
+├── .python-version                  # definição da versão do python via uv
+├── uv.lock                          # lockfile do uv para reprodutibilidade estrita
 └── README.md
 ```
 
@@ -43,31 +45,43 @@ gender-bias-llm/
 
 ## Instalação
 
+Este projeto utiliza o **uv** para gerenciamento ultrarrápido e reprodutível de ambientes e dependências.
+
+### 1. Clonar o repositório e preparar o ambiente
+Certifique-se de ter o `uv` instalado em sua máquina. Em seguida, clone o repositório e sincronize o ambiente virtual:
+
 ```bash
-git clone https://github.com/barbaraalvx/gender-bias-llm.git
+git clone [https://github.com/barbaraalvx/gender-bias-llm.git](https://github.com/barbaraalvx/gender-bias-llm.git)
 cd gender-bias-llm
-pip install -r requirements.txt
-
-# Modelos spaCy
-python -m spacy download en_core_web_sm
-python -m spacy download pt_core_news_sm
-
-# Recursos NLTK
-python -c "import nltk; nltk.download('sentiwordnet'); nltk.download('wordnet')"
 ```
 
-Copie `.env.example` para `.env` e preencha as chaves:
+#### Cria o ambiente virtual e instala todas as dependências do pyproject.toml de forma síncrona
+```bash
+uv sync
+``` 
 
+O `uv sync` configurará automaticamente a versão correta do Python apontada no `.python-version` e baixará os pacotes necessários, incluindo os modelos do spaCy (`en_core_web_sm`, `pt_core_news_sm`) e recursos do NLTK vinculados ao ecossistema do projeto.
+
+### 2. Configurar variáveis de ambiente
+Copie o arquivo `.env.example` para `.env`:
 ```bash
 cp .env.example .env
 ```
-
-As variáveis necessárias são:
-
+Abra o arquivo `.env` e preencha com as suas chaves de API:
+```bash
+OPENAI_API_KEY=seu_token_aqui
+GOOGLE_API_KEY=seu_token_aqui
+GROQ_API_KEY=seu_token_aqui
 ```
-OPENAI_API_KEY=
-GOOGLE_API_KEY=
-GROQ_API_KEY=
+
+### 3. Obtenção do SentiLex-PT
+Por restrições de licença e redistribuição de dados acadêmicos, os arquivos originais do SentiLex-PT não estão inclusos neste repositório.
+1. Acesse o repositório oficial em [portulanclarin.net](https://portulanclarin.net/repository/browse/sentilex/).
+2. Baixe os arquivos `SentiLex-flex-PT02.txt` e `SentiLex-lem-PT02.txt`.
+3. Crie uma pasta chamada `lexicons/` na raiz do projeto (caso não exista) e coloque o arquivo baixado lá dentro.
+4. Execute o script de preparação para gerar o léxico filtrado de adjetivos:
+```bash
+uv run python src/prepare_sentilex.py
 ```
 
 Carregue antes de rodar os scripts:
@@ -76,33 +90,34 @@ Carregue antes de rodar os scripts:
 export $(cat .env | xargs)
 ```
 
-O SentiLex-PT não está incluído neste repositório por restrições de licença. Baixe o arquivo `SentiLex-PT02-Adj.txt` em [portulanclarin.net](https://portulanclarin.net/repository/browse/sentilex/) e coloque-o em `lexicons/`.
-
 ---
 
 ## Uso
 
-### Coleta
+### Coleta de Respostas
+O script de coleta envia os prompts para as APIs e salva o progresso de forma incremental. Use o `uv run` para garantir a execução no ambiente isolado:
 
 ```bash
 # Um modelo por vez
-python src/collect.py --model gpt
-python src/collect.py --model gemini
-python src/collect.py --model llama
+uv run python src/collect.py --model gpt
+uv run python src/collect.py --model gemini
+uv run python src/collect.py --model llama
 
 # Todos de uma vez
-python src/collect.py --model all
+uv run python src/collect.py --model all
 ```
 
 A saída é salva incrementalmente em `data/outputs/responses.csv`. Se o script for interrompido, pode ser retomado sem perder as respostas já coletadas.
 
 ### Análise PLN
 
-```bash
-python src/analyze.py
+Após concluir a coleta, processe os textos abertos gerados pelas LLMs:
 
-# Arquivo de entrada alternativo
-python src/analyze.py --input data/outputs/responses.csv
+```bash
+uv run python src/analyze.py
+
+# Caso queira apontar para um arquivo de entrada customizado
+uv run python src/analyze.py --input data/outputs/responses.csv
 ```
 
 Gera três arquivos em `data/outputs/`:
@@ -114,13 +129,16 @@ Gera três arquivos em `data/outputs/`:
 ---
 
 ## Parâmetros fixos da coleta
+Os hiperparâmetros de geração foram travados para mitigar variações randômicas externas, com exceção do limite de tokens que foi adaptado à arquitetura de raciocínio de cada modelo:
 
 | Parâmetro | Valor |
 |-----------|-------|
 | Temperatura | 0.7 |
-| Máximo de tokens | 300 |
+| Máximo de tokens (GPT) | 900 tokens |
+| Máximo de tokens (LLaMA) | 900 tokens |
+| Máximo de tokens (Gemini) | 2000 tokens (otimizado para processamento de pensamento/raciocínio interno) |
 | System prompt | ausente |
-| Sessão | isolada por prompt |
+| Sessão | isolada por prompt (sem histórico de contexto prévio) |
 
 ---
 
