@@ -48,7 +48,6 @@ MODELS = {
             "gemini-3.5-flash:generateContent"
         ),
         "build_headers": lambda key: {
-            "x-goog-api-key": key,
             "Content-Type": "application/json",
         },
         "build_body": lambda prompt: {
@@ -62,14 +61,14 @@ MODELS = {
         "extract_tokens": lambda r: r.get("usageMetadata", {}).get("candidatesTokenCount", -1),
     },
     "llama": {
-        "name": "llama-3.1-70b",
+        "name": "llama-3.3-70b",
         "endpoint": "https://api.groq.com/openai/v1/chat/completions",
         "build_headers": lambda key: {
             "Authorization": f"Bearer {key}",
             "Content-Type": "application/json",
         },
         "build_body": lambda prompt: {
-            "model": "llama-3.1-70b-versatile",
+            "model": "llama-3.3-70b-versatile",
             "messages": [{"role": "user", "content": prompt}],
             "temperature": 0.7,
             "max_tokens": 300,
@@ -107,7 +106,8 @@ def collect_model(alias: str, prompts: list[dict], logger):
             def call_api():
                 headers = config["build_headers"](api_key)
                 body = config["build_body"](prompt_text)
-                resp = requests.post(config["endpoint"], headers=headers, json=body, timeout=60)
+                params = {"key": api_key} if alias == "gemini" else {}
+                resp = requests.post(config["endpoint"], headers=headers, json=body, params=params, timeout=60)
                 resp.raise_for_status()
                 return resp.json()
 

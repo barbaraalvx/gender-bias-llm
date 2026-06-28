@@ -1,5 +1,7 @@
 # Coleta
 requests
+groq
+openai
 
 # PLN
 spacy
