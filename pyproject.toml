@@ -9,5 +9,6 @@ dependencies = [
     "nltk>=3.9.4",
     "openai>=2.44.0",
     "requests>=2.34.2",
+    "seaborn>=0.13.2",
     "spacy>=3.8.14",
 ]
