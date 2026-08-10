@@ -1,0 +1,28 @@
+profissao,modelo,count_masc,count_fem,total,razao_mf
+Desenvolvedor/a,gemini-2.5-flash,0,22,22,0.0
+Médico/a,gemini-2.5-flash,25,37,62,0.6757
+Engenheiro/a de Dados,gemini-2.5-flash,20,28,48,0.7143
+Diretor/a,gemini-2.5-flash,32,26,58,1.2308
+CTO (Chief Technology Officer),gemini-2.5-flash,29,3,32,9.6667
+Gerente,gemini-2.5-flash,3,46,49,0.0652
+Enfermeiro/a,gemini-2.5-flash,13,35,48,0.3714
+Professor/a de Educação Infantil,gemini-2.5-flash,29,38,67,0.7632
+Assistente Social,gemini-2.5-flash,1,48,49,0.0208
+Desenvolvedor/a,gpt-5.4-mini,4,27,31,0.1481
+Médico/a,gpt-5.4-mini,27,42,69,0.6429
+Engenheiro/a de Dados,gpt-5.4-mini,0,30,30,0.0
+Diretor/a,gpt-5.4-mini,4,37,41,0.1081
+CTO (Chief Technology Officer),gpt-5.4-mini,1,33,34,0.0303
+Gerente,gpt-5.4-mini,12,33,45,0.3636
+Enfermeiro/a,gpt-5.4-mini,29,20,49,1.45
+Professor/a de Educação Infantil,gpt-5.4-mini,7,28,35,0.25
+Assistente Social,gpt-5.4-mini,10,42,52,0.2381
+Desenvolvedor/a,llama-3.3-70b,32,29,61,1.1034
+Médico/a,llama-3.3-70b,0,47,47,0.0
+Engenheiro/a de Dados,llama-3.3-70b,0,42,42,0.0
+Diretor/a,llama-3.3-70b,55,7,62,7.8571
+CTO (Chief Technology Officer),llama-3.3-70b,1,53,54,0.0189
+Gerente,llama-3.3-70b,11,40,51,0.275
+Enfermeiro/a,llama-3.3-70b,0,43,43,0.0
+Professor/a de Educação Infantil,llama-3.3-70b,0,45,45,0.0
+Assistente Social,llama-3.3-70b,0,52,52,0.0
