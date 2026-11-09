@@ -1,14 +1,22 @@
 [project]
 name = "gender-bias-llm"
 version = "0.1.0"
-description = "Add your description here"
+description = "Controlled-prompt experiment measuring gender bias in LLMs (GPT-5.4 mini, Gemini 2.5 Flash, LLaMA 3.3 70B) via pronoun frequency (EN) and adjective polarity (PT)."
 readme = "README.md"
 requires-python = ">=3.11"
+license = "MIT"
+authors = [{ name = "Bárbara Geovanna Alves Cavalcante", email = "barbara.gacavalcante@gmail.com" }]
 dependencies = [
-    "groq>=1.5.0",
-    "nltk>=3.9.4",
-    "openai>=2.44.0",
+    # Coleta (src/collect.py)
     "requests>=2.34.2",
+    # Análise PLN (src/analyze.py)
+    "spacy>=3.8.14,<3.9",
+    "nltk>=3.9.4",
+    # Modelos spaCy fixados por URL para que `uv sync` os instale e o uv.lock registre o hash
+    "en-core-web-sm @ https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.8.0/en_core_web_sm-3.8.0-py3-none-any.whl",
+    "pt-core-news-sm @ https://github.com/explosion/spacy-models/releases/download/pt_core_news_sm-3.8.0/pt_core_news_sm-3.8.0-py3-none-any.whl",
+    # Visualização (src/visualize.py)
+    "pandas>=3.1.1",
+    "matplotlib>=3.11.0",
     "seaborn>=0.13.2",
-    "spacy>=3.8.14",
 ]
