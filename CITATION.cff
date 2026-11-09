@@ -1,0 +1,38 @@
+cff-version: 1.2.0
+message: "Se você usar este código ou os dados, por favor cite o trabalho abaixo (preferred-citation)."
+title: "gender-bias-llm: experimento de viés de gênero em LLMs com prompts controlados"
+type: software
+authors:
+  - family-names: "Cavalcante"
+    given-names: "Bárbara Geovanna Alves"
+    email: "barbara.gacavalcante@gmail.com"
+    affiliation: "Universidade Federal da Paraíba (UFPB)"
+repository-code: "https://github.com/barbaraalvx/gender-bias-llm"
+license: MIT
+keywords:
+  - gender bias
+  - large language models
+  - natural language processing
+  - controlled prompts
+  - pronoun analysis
+  - adjective polarity
+  - Portuguese
+preferred-citation:
+  type: thesis
+  thesis-type: "Trabalho de Conclusão de Curso (Bacharelado em Ciência da Computação)"
+  title: "Análise de Viés de Gênero em Modelos de Linguagem por meio de Experimentos com Prompts Controlados"
+  authors:
+    - family-names: "Cavalcante"
+      given-names: "Bárbara Geovanna Alves"
+  institution:
+    name: "Universidade Federal da Paraíba, Centro de Informática"
+    city: "João Pessoa"
+    region: "PB"
+    country: "BR"
+  year: 2026
+  month: 7
+  date-published: "2026-07-30"
+  languages:
+    - por
+  url: "https://github.com/barbaraalvx/gender-bias-llm"
+  notes: "Orientadora: Profa. Dra. Danielle Rousy Dias Ricarte. Defendido em 30/07/2026."
