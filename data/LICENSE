@@ -1,0 +1,20 @@
+Dados do experimento gender-bias-llm
+Copyright (c) 2026 Bárbara Geovanna Alves Cavalcante
+
+O dataset de prompts (data/raw/) e os resultados do experimento (data/outputs/,
+incluindo CSVs e figuras) estão licenciados sob a Creative Commons Attribution
+4.0 International (CC BY 4.0).
+
+Você pode compartilhar e adaptar este material para qualquer finalidade, desde
+que dê o crédito apropriado (veja CITATION.cff na raiz do repositório), forneça
+um link para a licença e indique se foram feitas alterações.
+
+Texto completo: https://creativecommons.org/licenses/by/4.0/legalcode
+Resumo:         https://creativecommons.org/licenses/by/4.0/
+
+Observações:
+- data/outputs/responses.csv contém textos gerados por GPT-5.4 mini (OpenAI),
+  Gemini 2.5 Flash (Google) e LLaMA 3.3 70B (Meta, via Groq). O uso desses
+  textos também pode estar sujeito aos termos dos respectivos provedores.
+- O léxico SentiLex-PT, usado para classificar os adjetivos em português, NÃO
+  está incluído e segue a sua própria licença.
