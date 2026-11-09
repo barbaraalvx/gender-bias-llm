@@ -1,10 +1,26 @@
+# Segredos
 .env
 
-__pycache__
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.ipynb_checkpoints/
 
-*.pyc
-
+# Ambientes virtuais
 .venv/
 venv/
 
+# Léxicos de terceiros (SentiLex-PT não é redistribuível)
 lexicons/
+
+# Sistema operacional / editores
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
+
+# Observação: data/outputs/ é versionado de propósito (resultados do experimento).
